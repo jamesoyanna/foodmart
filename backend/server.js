@@ -36,6 +36,12 @@ connection.once("open", () => {
     console.log("Connection Successful..")
 })
 
+// Import Routes.
+const userRouter = require("./routes/users");
+ 
+// Private Routes
+app.use("/users", userRouter);
+
 app.get('/', (req, res) => {
     res.send("market backend")
 })
