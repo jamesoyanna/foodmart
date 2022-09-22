@@ -13,16 +13,66 @@ const BCRYPT_SALT_ROUNDS = 10;
 
 // const nodemailer = require('nodemailer');
 
-// const signToken = (userID) => {
-//     return JWT.sign(
-//     {
-//         iss: process.env.PASSPORTJS_KEY,
-//         sub: userID,
-//     },
-//     process.env.PASSPORTJS_KEY,
-//     {expiresIn: "30 days" }
-//     )
-// };
+const signToken = (userID) => {
+    return JWT.sign(
+    {
+        iss: process.env.PASSPORTJS_KEY,
+        sub: userID,
+    },
+    process.env.PASSPORTJS_KEY,
+    {expiresIn: "30 days" }
+    )
+};
+
+// Login a User
+const LoginUser = (req, res) => {
+if(isAuthenticated()) {
+  const {username, _id, name, surname, company, isCustomer, address, image, isActive, prefix, phone} = req.user;
+  const token = signToken(_id);
+  res.cookie("access_token", token, {
+    httpOnly: true,
+    sameSite: true,
+  });
+  res.status(200).json({
+    isAuthenticated: true,
+    user: {
+      username, 
+      id: _id,
+      name: name,
+      surname,
+      company,
+      isCustomer,
+      image,
+      address,
+      isActive,
+      prefix,
+      phone,
+    },
+  });
+}
+}
+
+// Login user
+const Login = (req, res) => {
+  if(erq.isAuthenticated()){
+    const {_id, username, role, name, company, isCustomer, image, phone} = req.user;
+    const token = signToken(_id);
+    res.cookie("access_token", token, {httpOnly: true, sameSite: true})
+    res.status(200).json({
+      isAuthenticated: true,
+      user: {
+        username,
+        role,
+        id: _id,
+        name: name + " " + surnname,
+        company: company,
+        isCustomer: isCustomer,
+        image: image,
+        phone: phone,
+      }
+    })
+  }
+}
 
 // Register a User
 const Register = async (req, res) => {
@@ -62,4 +112,6 @@ const Register = async (req, res) => {
 
   module.exports = {
     Register,
+    Login,
+    LoginUser,
   };
