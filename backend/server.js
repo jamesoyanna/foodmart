@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-//const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const compression = require("compression");
@@ -25,6 +25,16 @@ app.use(express.json({limit: "1gb", parameterLimit: 50000 }));
 app.use(express.urlencoded({limit:"1gb", extended: true, parameterLimit: 50000}))
 
 // Db connection
+const uri  = process.env.MONGODB_URI;
+mongoose.connect(uri, {
+    useNewUrlParser: true,
+
+});
+
+const connection = mongoose.connection;
+connection.once("open", () => {
+    console.log("Connection Successful..")
+})
 
 app.get('/', (req, res) => {
     res.send("market backend")
