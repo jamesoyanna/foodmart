@@ -231,6 +231,62 @@ const Logout = (req, res) => {
  )
 }
 
+// Admin
+const Admin = (req, res) => {
+ if(req.Users.role === "admin"){
+  res.status(200).json({
+    message: {msgBody: "You are an admin", msgError: false}, 
+  })
+ } else{
+  res.status(403).json({
+    message: {
+      msgBody: "You are not an admin",
+      msgError: true,
+    }
+  })
+ }
+}
+
+// AuthenticatedUser
+const AuthenticatedUser = (req, res) => {
+  const {username, _id, name, surname, company, isCustomer, address, image, isActive, prefix, phone} = req.user;
+  res.status(200).json({
+    isAuthenticated: true,
+    user: {
+      username,
+      id: _id,
+      name: name + " " + surname,
+      company,
+      isCustomer,
+      image,
+      address,
+      isActive,
+      prefix,
+      phone,
+    }
+  })
+}; 
+
+// Authenticated 
+const Authenticated = (req, res) => {
+  const {username, role, _id, name, surname, company, isCustomer, image, prefix, phone} = req.user;
+  res.status(200).json({
+    isAuthenticated: true,
+    user: {
+      username,
+      role,
+      id: _id,
+      name: name,
+      surname,
+      company: company,
+      isCustomer: isCustomer,
+      image: image,
+      prefix: prefix,
+      phone: phone,
+    }
+  })
+}
+
 
   module.exports = {
     Register,
@@ -240,4 +296,7 @@ const Logout = (req, res) => {
     ResetPassword,
     ForgotPassword,
     Logout,
+    Admin,
+    AuthenticatedUser,
+    Authenticated,
   };
