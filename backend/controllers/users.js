@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
-const passport = require("passport");
+// const passport = require("passport");
 const JWT = require("jsonwebtoken");
 
 const Users = require("../models/users.model");
@@ -25,7 +25,7 @@ const signToken = (userID) => {
 
 // Login a User
 const LoginUser = (req, res) => {
-if(isAuthenticated()) {
+if(req.isAuthenticated()) {
   const {username, _id, name, surname, company, isCustomer, address, image, isActive, prefix, phone} = req.user;
   const token = signToken(_id);
   res.cookie("access_token", token, {
@@ -53,7 +53,7 @@ if(isAuthenticated()) {
 
 // Login user
 const Login = (req, res) => {
-  if(erq.isAuthenticated()){
+  if(req.isAuthenticated()){
     const {_id, username, role, name, company, isCustomer, image, phone} = req.user;
     const token = signToken(_id);
     res.cookie("access_token", token, {httpOnly: true, sameSite: true})
