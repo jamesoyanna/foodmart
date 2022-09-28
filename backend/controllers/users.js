@@ -109,8 +109,49 @@ const Register = async (req, res) => {
   });
 };
 
+// Update Password Via email
+const UpdatePasswordViaEmail = (req, res) => {
+  Users.findOne({
+    username: req.body.username,
+    resetPasswordToken: req.body.resetPasswordToken,
+    resetPasswordExpires: { $gte: Date.now() },
+  }).then((user) => {
+    if (user == null) {
+      //console.error({message:"password reset link is invalid or has expired"});
+      res
+        .status(200)
+        .send({ message: "password reset link is invalid or has expired" });
+    } else if (user != null) {
+      bcrypt
+        .hash(req.body.password, BCRYPT_SALT_ROUNDS)
+        .then((hashedPassword) => {
+          Users.findOneAndUpdate(
+            {
+              username: req.body.username,
+            },
+            {
+              password: hashedPassword,
+              resetPasswordToken: null,
+              resetPasswordExpires: null,
+            }
+          )
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+        })
+        .then(() => {
+          console.log("password updated");
+          res.status(200).send({ message: "password updated" });
+        });
+    } else {
+      res.status(200).send({ message: "no user exists in db to update" });
+    }
+  });
+};
+
+
   module.exports = {
     Register,
     Login,
     LoginUser,
+    UpdatePasswordViaEmail,
   };
