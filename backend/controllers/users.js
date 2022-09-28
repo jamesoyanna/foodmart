@@ -216,6 +216,21 @@ const ForgotPassword = (req, res) => {
   });
 };
 
+// Logout 
+const Logout = (req, res) => {
+ res.clearCookie("access_token");
+ res.json({
+  user: "",
+  role: "",
+  id: "",
+  name: "",
+  company: "",
+  isCustomer: "",
+  phone: "",
+ }, 
+ )
+}
+
 
   module.exports = {
     Register,
@@ -224,4 +239,5 @@ const ForgotPassword = (req, res) => {
     UpdatePasswordViaEmail,
     ResetPassword,
     ForgotPassword,
+    Logout,
   };
