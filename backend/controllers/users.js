@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
-const passport = require('passport');
-const JWT = require('jsonwebtoken');
+const passport = require("passport");
+const JWT = require("jsonwebtoken");
 
 const Users = require("../models/users.model");
 
@@ -9,7 +9,6 @@ const Users = require("../models/users.model");
 require("dotenv").config();
 
 const BCRYPT_SALT_ROUNDS = 10;
-
 
 // const nodemailer = require('nodemailer');
 
@@ -76,42 +75,48 @@ const Login = (req, res) => {
 
 // Register a User
 const Register = async (req, res) => {
-    const { username, password, name, surname, prefix, phone } = req.body;
-  
-   await  Users.findOne({ username }).then((user) => {
-      if (user)
-        res.status(201).json({
-          message: "E-mail is already taken",
-          error: true,
-        });
-      else {
-        new Users({
-          username,
-          password,
-          name,
-          surname,
-          prefix,
-          phone,
-          isCustomer: true,
-          created_user: { name: "register" },
-        }).save((err) => {
-          if (err)
-            res.status(500).json({
-              message: "Error has occured " + err,
-              error: true,
-            });
-          else
-            res.status(201).json({
-              message: "Account successfully created",
-              error: false,
-            });
-        });
-      }
-    });
-  };
+  const { username, password, name, surname, prefix, phone } = req.body;
 
+  await Users.findOne({ username }).then((user) => {
+    if (user)
+      res.status(201).json({
+        message: "E-mail is already taken",
+        error: true,
+      });
+    else {
+      new Users({
+        username,
+        password,
+        name,
+        surname,
+        prefix,
+        phone,
+        isCustomer: true,
+        created_user: { name: "register" },
+      }).save((err) => {
+        if (err)
+          res.status(500).json({
+            message: "Error has occured " + err,
+            error: true,
+          });
+        else
+          res.status(201).json({
+            message: "Account successfully created",
+            error: false,
+          });
+      });
+    }
+  });
+};
+
+<<<<<<< HEAD
   module.exports = {
     Register,
     Login,
     LoginUser,
   };
+=======
+module.exports = {
+  Register,
+};
+>>>>>>> master

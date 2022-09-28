@@ -33,7 +33,7 @@ mongoose.connect(uri, {
 
 const connection = mongoose.connection;
 connection.once("open", () => {
-    console.log("Connection Successful..")
+    console.log("Database Connection Successful..")
 })
 
 // Import Routes.
@@ -43,7 +43,7 @@ const userRouter = require("./routes/users");
 app.use("/users", userRouter);
 
 app.get('/', (req, res) => {
-    res.send("market backend")
+    res.send("foodmart backend")
 })
 
 app.listen(port, () => {
