@@ -109,14 +109,8 @@ const Register = async (req, res) => {
   });
 };
 
-<<<<<<< HEAD
   module.exports = {
     Register,
     Login,
     LoginUser,
   };
-=======
-module.exports = {
-  Register,
-};
->>>>>>> master
