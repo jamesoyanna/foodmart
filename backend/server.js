@@ -38,9 +38,11 @@ connection.once("open", () => {
 
 // Import Routes.
 const userRouter = require("./routes/users");
+const cartRouter = require("./routes/cart");
  
 // Private Routes
 app.use("/users", userRouter);
+app.use("/products", cartRouter);
 
 app.get('/', (req, res) => {
     res.send("foodmart backend")
